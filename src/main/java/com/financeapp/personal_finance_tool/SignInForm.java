@@ -49,9 +49,6 @@ public class SignInForm extends javax.swing.JFrame {
 
         lblEmail.setText("Email");
 
-        txtUsername.setText("jTextField1");
-
-        txtEmail.setText("jTextField3");
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEmailActionPerformed(evt);
@@ -65,38 +62,35 @@ public class SignInForm extends javax.swing.JFrame {
             }
         });
 
-        txtPassword.setText("jPasswordField1");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(147, 147, 147)
+                .addComponent(btnSignUp)
+                .addContainerGap(142, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblUsername)
-                                .addGap(94, 94, 94)
-                                .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblPassword)
-                                    .addComponent(lblEmail))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(lblUsername)
+                        .addGap(94, 94, 94)
+                        .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(99, 99, 99)
-                        .addComponent(btnSignUp)))
-                .addContainerGap(123, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblPassword)
+                            .addComponent(lblEmail))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                            .addComponent(txtPassword))))
+                .addGap(59, 59, 59))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUsername)
                     .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -110,7 +104,7 @@ public class SignInForm extends javax.swing.JFrame {
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addComponent(btnSignUp)
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         pack();
@@ -118,40 +112,41 @@ public class SignInForm extends javax.swing.JFrame {
 
     private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
         // TODO add your handling code here:
-       System.out.println("Sign-Up button clicked"); // Debugging statement
-
-        try {
+      try {
             String username = txtUsername.getText();
-            String password = String.valueOf(txtPassword.getPassword()); // Securely retrieve password
+            String password = new String(txtPassword.getPassword());
             String email = txtEmail.getText();
 
             // Ensure fields are not empty
             if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "All fields are required.");
                 return;
-            }    
-            
+            }
+
+            // Create new User object with the current date
             java.util.Date utilDate = new java.util.Date();
             java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
             User newUser = new User(0, username, password, email, sqlDate);
-            UserDAO userDAO = new UserDAO(DBConnection.getConnection());
-            userDAO.createUser(newUser);
-            System.out.println("User created: " + username); // Debugging statement
 
-            JOptionPane.showMessageDialog(this, "Registration successful! You can now log in.");
+            // Call createUser to register and get the new User ID
+             UserDAO userDAO = new UserDAO(DBConnection.getConnection());
+            int generatedUserId = userDAO.createUser(newUser);
+
+            // Display success message with User ID
+            JOptionPane.showMessageDialog(this, "Registration successful! Your User ID is: " + generatedUserId);
             this.dispose(); // Close the dialog after successful registration
-            new LoginGUI(userId -> {
-                UserSession.getInstance().setUserId(userId); // Store user ID
-                System.out.println("User ID logged in: " + userId); // Debugging statement
-                new FinanceManagerGUI(); // Launch the main GUI
-            });
-            } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
-            System.out.println("SQLException: " + ex.getMessage()); // Debugging statement
-        }
-   
 
+            // Open login screen after successful registration
+            new LoginGUI(userId -> {
+                UserSession.getInstance().setUserId(userId);
+                new FinanceManagerGUI();  // Open Finance Manager GUI
+            });
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+        }
+    
     }//GEN-LAST:event_btnSignUpActionPerformed
 
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
