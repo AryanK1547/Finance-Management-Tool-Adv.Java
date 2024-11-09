@@ -9,7 +9,7 @@ public class Transaction {
         this.loggedInUserId = loggedInUserId;
         // Other initialization code
     }
-	LoginGUI login ;
+	//LoginGUI login ;
     private int id;
     private double amount;
     private String description;

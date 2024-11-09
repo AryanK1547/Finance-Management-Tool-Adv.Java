@@ -4,6 +4,8 @@
  */
 package com.financeapp.personal_finance_tool;
 
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
@@ -44,25 +46,49 @@ public class LoginForm extends javax.swing.JFrame {
         txtUserId = new javax.swing.JTextField();
         txtPassword = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        btnJumpSignIn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        lblUsername.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblUsername.setText("Enter Username");
 
+        lblUserId.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblUserId.setText("Enter User ID :");
 
+        lblPassword.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblPassword.setText("Enter Password :");
 
-        txtUsername.setText("jTextField1");
+        txtUsername.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        txtUserId.setText("jTextField2");
+        txtUserId.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        txtPassword.setText("jPasswordField1");
+        txtPassword.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
+        btnLogin.setBackground(new java.awt.Color(78, 165, 78));
+        btnLogin.setForeground(new java.awt.Color(255, 255, 255));
         btnLogin.setText("Log-In");
+        btnLogin.setBorder(null);
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setText("Log-In ");
+
+        jLabel2.setText("Don't have an Account? ");
+        jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        btnJumpSignIn.setBackground(new java.awt.Color(51, 153, 255));
+        btnJumpSignIn.setForeground(new java.awt.Color(255, 255, 255));
+        btnJumpSignIn.setText("Sign-In");
+        btnJumpSignIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnJumpSignInActionPerformed(evt);
             }
         });
 
@@ -73,44 +99,56 @@ public class LoginForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(103, 103, 103)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(lblUserId)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtUserId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(lblUsername)
-                                    .addGap(86, 86, 86)
-                                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(lblPassword)
-                                .addGap(86, 86, 86)
-                                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(153, 153, 153)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnLogin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+                            .addComponent(btnJumpSignIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(150, 150, 150)
-                        .addComponent(btnLogin)))
-                .addContainerGap(35, Short.MAX_VALUE))
+                        .addGap(133, 133, 133)
+                        .addComponent(jLabel2)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 49, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(153, 153, 153))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblPassword)
+                            .addComponent(lblUsername)
+                            .addComponent(lblUserId))
+                        .addGap(49, 49, 49)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtUserId, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(45, 45, 45))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblUsername)
-                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(14, 14, 14)
+                .addComponent(jLabel1)
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUserId)
                     .addComponent(txtUserId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblUsername)
+                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPassword)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
-                .addComponent(btnLogin)
-                .addContainerGap(91, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addComponent(btnJumpSignIn, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -118,64 +156,72 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
  // Retrieve the input values from the text fields
-String username = txtUsername.getText();
-                String password = new String(txtPassword.getPassword());
-                int userId = Integer.parseInt(txtUserId.getText());
+ String username = txtUsername.getText();
+    String password = new String(txtPassword.getPassword());
+    int userId = Integer.parseInt(txtUserId.getText());
 
-                try {
-                    boolean isAuthenticated = userDAO.authenticateUser(username, password, userId);
-                    if (isAuthenticated) {
-                        JOptionPane.showMessageDialog(this, "Login successful!");
-                        this.dispose();
-                        loginCallback.onLoginComplete(userId);  // Notify that login is complete
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Invalid login. Please check your credentials.");
-                    }
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(this, "Error during login: " + ex.getMessage());
-                }
+    try {
+        boolean isAuthenticated = userDAO.authenticateUser(username, password, userId);
+        if (isAuthenticated) {
+            JOptionPane.showMessageDialog(this, "Login successful!");
+            this.dispose();
+            loginCallback.onLoginComplete(userId, username);
+            // Set the user session and open the main dashboard form
+            UserSession.getInstance().setUserId(userId);
+            
+            MainDashboardForm mainDashboard = new MainDashboardForm(username, userId);
+            mainDashboard.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid login. Please check your credentials.");
+        }
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error during login: " + ex.getMessage());
+    }
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void btnJumpSignInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJumpSignInActionPerformed
+        // TODO add your handling code here:
+         this.dispose();
+
+    // Open the SignUpForm or similar form for user registration
+    SignInForm signUpForm = new SignInForm();
+    signUpForm.setVisible(true);
+        
+    }//GEN-LAST:event_btnJumpSignInActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+  public static void main(String args[]) {
+   
+    /* Set the Nimbus look and feel */
+    FlatMacDarkLaf.setup();
 
-        /* Create and display the form */
-      java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginForm(userId -> {
-                    UserSession.getInstance().setUserId(userId);  
-                    new FinanceManagerGUI();  
-                }).setVisible(true); 
-            }
-        });
-    }
+    /* Create and display the form */
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            // Initialize the LoginForm instance
+           LoginForm loginForm = new LoginForm((userId, username) -> {
+    UserSession.getInstance().setUserId(userId);
+    MainDashboardForm mainDB = new MainDashboardForm(username, userId);
+    mainDB.setVisible(true);
+    
+});
+
+            // Show the login form
+            loginForm.setVisible(true);
+        }
+    });
+}
+
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnJumpSignIn;
     private javax.swing.JButton btnLogin;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblUserId;
     private javax.swing.JLabel lblUsername;

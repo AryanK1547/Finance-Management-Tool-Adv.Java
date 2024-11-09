@@ -3,6 +3,7 @@ package com.financeapp.personal_finance_tool;
 public class UserSession {
     private static UserSession instance;
     private int userId;
+    private String username;
 
     private UserSession() {}
 
@@ -17,8 +18,20 @@ public class UserSession {
         this.userId = userId;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public int getUserId() {
         return userId;
     }
-}
 
+    public String getUsername() {
+        return username;
+    }
+    
+    public void clearSession() {
+        userId = 0;
+        username = null;
+    }
+}

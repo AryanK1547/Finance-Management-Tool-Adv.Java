@@ -1,5 +1,5 @@
 package com.financeapp.personal_finance_tool;
 
 public interface LoginCallback {
-    void onLoginComplete(int userId);
+    void onLoginComplete(int userId, String username);
 }

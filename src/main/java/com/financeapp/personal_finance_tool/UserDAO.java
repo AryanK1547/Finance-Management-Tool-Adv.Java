@@ -3,6 +3,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,17 +15,29 @@ public class UserDAO {
     }
 
     // Method to create a new user
-    public void createUser(User user) throws SQLException {
-        String sql = "INSERT INTO users (username, password, email, created_at) VALUES (?, ?, ?,?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+    public int createUser(User user) throws SQLException {
+    String sql = "INSERT INTO users (username, password, email, created_at) VALUES (?, ?, ?, ?)";
+    try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            stmt.setString(1, user.getUsername());
-            stmt.setString(2, user.getPasswordHash());
-            stmt.setString(3,user.getEmail());
-            stmt.setDate(4, user.getCreatedDate());
-            stmt.executeUpdate();
+        stmt.setString(1, user.getUsername());
+        stmt.setString(2, user.getPasswordHash());
+        stmt.setString(3, user.getEmail());
+        stmt.setDate(4, user.getCreatedDate());
+
+        int affectedRows = stmt.executeUpdate();
+        if (affectedRows == 0) {
+            throw new SQLException("Creating user failed, no rows affected.");
+        }
+        // Retrieve the generated ID
+        try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);  // Return the generated User ID
+            } else {
+                throw new SQLException("Creating user failed, no ID obtained.");
+            }
         }
     }
+}
 
     // Method to retrieve a user by username
 //    public User getUserByUsername(String username) throws SQLException {
@@ -52,15 +65,24 @@ public class UserDAO {
         }
         return -1; // Return -1 if user not found
     }
-    public boolean authenticateUser(String username, String password,int user_id ) throws SQLException {
-        String query = "SELECT * FROM users WHERE username = ? AND password = ? AND user_id= ?";
+        public boolean authenticateUser(String username, String password, int userId) throws SQLException {
+        String query = "SELECT password FROM users WHERE username = ? AND user_id = ? ";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, username);
-            pstmt.setString(2, password);
-            pstmt.setInt(3, user_id);
+            pstmt.setInt(2, userId);
+            
 
             ResultSet rs = pstmt.executeQuery();
-            return rs.next();  // Returns true if user exists, false otherwise
+            if (rs.next()) {
+                // Retrieve the stored password
+                String storedPassword = rs.getString("password");
+
+                // Compare the entered password with the stored password (plain-text comparison)
+                return storedPassword.equals(password);
+            }
         }
+        return false;  // Return false if user not found
     }
-}
+
+    }
+
