@@ -125,7 +125,7 @@ private String selectedAnalyzeCategory;
         ButtonPanel = new javax.swing.JPanel();
         btnShowTransactionModule = new javax.swing.JButton();
         btnAnayliticsPanel = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnGenerateReport = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         NavigationPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -253,24 +253,30 @@ private String selectedAnalyzeCategory;
             }
         });
 
-        jButton4.setText("jButton4");
+        btnGenerateReport.setText("Generate Report");
+        btnGenerateReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerateReportActionPerformed(evt);
+            }
+        });
 
-        jButton5.setText("jButton5");
+        jButton5.setText("About");
 
         javax.swing.GroupLayout ButtonPanelLayout = new javax.swing.GroupLayout(ButtonPanel);
         ButtonPanel.setLayout(ButtonPanelLayout);
         ButtonPanelLayout.setHorizontalGroup(
             ButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ButtonPanelLayout.createSequentialGroup()
+            .addGroup(ButtonPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(ButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnAnayliticsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnShowTransactionModule, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, ButtonPanelLayout.createSequentialGroup()
-                        .addGroup(ButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGroup(ButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAnayliticsPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnShowTransactionModule, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(ButtonPanelLayout.createSequentialGroup()
+                        .addComponent(btnGenerateReport)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ButtonPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         ButtonPanelLayout.setVerticalGroup(
@@ -281,8 +287,8 @@ private String selectedAnalyzeCategory;
                 .addGap(65, 65, 65)
                 .addComponent(btnAnayliticsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(85, 85, 85)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(73, 73, 73)
+                .addComponent(btnGenerateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1764,13 +1770,32 @@ if (selectedRow != -1) {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void btnGenerateReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateReportActionPerformed
+            // TODO add your handling code here:
+           // Get selected year as a string from the combo box and parse it to an integer
+        int selectedAnalyzeYear = Integer.parseInt(cbAnalyzeYear.getSelectedItem().toString());  // Assign to class-level variable
+
+        // Get selected category as a string from the combo box
+        String selectedAnalyzeCategory = cbAnalyzeCategory.getSelectedItem().toString();  // Assign to class-level variable
+
+        // Try to generate the report using the selected year and category
+        try {
+            ReportGenerator reportGenerator = new ReportGenerator();
+            reportGenerator.generatePdfWithBarChartAndInsights(selectedAnalyzeYear, selectedAnalyzeCategory, userId); // Pass year, category, and userId
+        } catch (DocumentException | IOException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error generating PDF: " + ex.getMessage());
+}
+
+    }//GEN-LAST:event_btnGenerateReportActionPerformed
+
     /**
      * @param args the command line arguments
      */
   public static void main(String args[]) {
       Document d =new Document();
     /* Set the Nimbus look and feel */
-    FlatMacDarkLaf.setup();
+    FlatLightLaf.setup();
 
     //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
     /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -1813,6 +1838,7 @@ if (selectedRow != -1) {
     private javax.swing.JButton btnAddTransactionModule;
     private javax.swing.JButton btnAnalyzeGenerateReport;
     private javax.swing.JButton btnAnayliticsPanel;
+    private javax.swing.JButton btnGenerateReport;
     private javax.swing.JButton btnLogoutSession;
     private javax.swing.JButton btnRemoveTransaction;
     private javax.swing.JButton btnRemoveTransactionModule;
@@ -1839,7 +1865,6 @@ if (selectedRow != -1) {
     private javax.swing.JComboBox<String> cbViewYearFilter;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

@@ -64,6 +64,18 @@
       <artifactId>flatlaf</artifactId>
       <version>3.5.2</version>
     </dependency>
+    <dependency>
+      <groupId>br.com.objectos.css</groupId>
+      <artifactId>core</artifactId>
+      <version>0.3.0</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>ch.randelshofer</groupId>
+      <artifactId>org.jhotdraw8.fxcontrols</artifactId>
+      <version>0.3</version>
+      <type>jar</type>
+    </dependency>
   </dependencies>
 
   <repositories>
