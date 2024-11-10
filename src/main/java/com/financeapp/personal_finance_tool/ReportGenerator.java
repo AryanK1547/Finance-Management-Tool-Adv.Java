@@ -35,6 +35,8 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 import java.util.LinkedHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jfree.chart.plot.PlotOrientation;
 
 
@@ -80,70 +82,82 @@ public class ReportGenerator {
 }
 
     // Method to generate PDF with chart and transaction data
-   public void generatePdfWithChart(int year, String category, int userId) throws DocumentException, IOException {
-    Map<String, Double> categoryData = getCategoryExpenseData(year, category,userId);
+public void generatePdfWithChart(int year, String category, int userId) throws DocumentException, IOException {
+    Map<String, Double> categoryData = getCategoryExpenseData(year, category, userId);
     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    
+    // Populate the dataset with the expense data for the category
     for (Map.Entry<String, Double> entry : categoryData.entrySet()) {
         dataset.addValue(entry.getValue(), "Expenses", entry.getKey());
     }
 
     JFreeChart chart = createChart(dataset);
 
+    // Convert chart to an image
     BufferedImage chartImage = chart.createBufferedImage(800, 600);
 
-    String filePath = "YearlyExpenseReport_" + year + "_" + category + ".pdf";
+    // Define the PDF file path
+    String filePath = "SmartFinance_YearlyExpenseReport_" + year + "_" + category + ".pdf";
 
+    // Create PDF document and writer
     Document document = new Document();
     PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+    
+    // Add footer with copyright statement on each page
+    writer.setPageEvent(new PdfPageEventHelper() {
+        public void onEndPage(PdfWriter writer, Document document) {
+            PdfPTable footer = new PdfPTable(1);
+            footer.setTotalWidth(document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin());
+            try {
+                footer.setWidths(new float[]{100});
+            } catch (DocumentException ex) {
+                Logger.getLogger(ReportGenerator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            PdfPCell cell = new PdfPCell(new Phrase("© " + new java.util.Date().getYear() + " SmartFinance. All Rights Reserved.", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.ITALIC)));
+            cell.setBorder(com.itextpdf.text.Rectangle.NO_BORDER);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            footer.addCell(cell);
+            footer.writeSelectedRows(0, -1, document.leftMargin(), document.bottomMargin() - 10, writer.getDirectContent());
+        }
+    });
+
     document.open();
 
-    // Title Section: Professional and Clear Title
-    Font titleFont = FontFactory.getFont(FontFactory.TIMES_ROMAN, 18, Font.BOLD);
-    Paragraph title = new Paragraph("Detailed Yearly Expense Report", titleFont);
+    // Title of the report with "SmartFinance"
+    Font titleFont = FontFactory.getFont(FontFactory.TIMES_ROMAN, 16, Font.BOLD);
+    Paragraph title = new Paragraph("SmartFinance - Yearly Expense Report for " + category + " (" + year + ")", titleFont);
     title.setAlignment(Element.ALIGN_CENTER);
     document.add(title);
     document.add(Chunk.NEWLINE);
 
-    // Subtitle for Clarity
-    Font subtitleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14);
-    Paragraph subtitle = new Paragraph("Category: " + category + " | Year: " + year, subtitleFont);
-    subtitle.setAlignment(Element.ALIGN_CENTER);
-    document.add(subtitle);
-    document.add(Chunk.NEWLINE);
-
-    // Add Date & User Info
+    // Date and user information
     Font infoFont = FontFactory.getFont(FontFactory.HELVETICA, 10, Font.ITALIC);
-    Paragraph info = new Paragraph("Report Generated on: " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date()), infoFont);
+    Paragraph info = new Paragraph("Generated on: " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date()));
+    info.setFont(infoFont);
     info.setAlignment(Element.ALIGN_RIGHT);
     document.add(info);
-    document.add(Chunk.NEWLINE);
 
-    Paragraph userDetails = new Paragraph("User ID: " + userId, infoFont);
+    Paragraph userDetails = new Paragraph("User ID: " + userId);
+    userDetails.setFont(infoFont);
     userDetails.setAlignment(Element.ALIGN_RIGHT);
     document.add(userDetails);
     document.add(Chunk.NEWLINE);
 
-    // Add the Chart with Caption
+    // Add chart image to the PDF
     Image chartPdfImage = Image.getInstance(writer.getDirectContent(), chartImage, 1);
     chartPdfImage.setAlignment(Image.ALIGN_CENTER);
     chartPdfImage.scaleToFit(500, 400);
     document.add(chartPdfImage);
-
-    // Add Caption for the Chart
-    Font captionFont = FontFactory.getFont(FontFactory.HELVETICA, 10, Font.ITALIC);
-    Paragraph caption = new Paragraph("Figure 1: Monthly Expense Breakdown for the Category: " + category, captionFont);
-    caption.setAlignment(Element.ALIGN_CENTER);
-    document.add(caption);
     document.add(Chunk.NEWLINE);
 
-    // Add Transaction Details Section
+    // Transaction details section
     Font sectionFont = FontFactory.getFont(FontFactory.TIMES_ROMAN, 14, Font.BOLD);
-    Paragraph transactionDetailsTitle = new Paragraph("Transaction Details", sectionFont);
-    transactionDetailsTitle.setSpacingBefore(20);
+    Paragraph transactionDetailsTitle = new Paragraph("Transaction Details for Year " + year, sectionFont);
+    transactionDetailsTitle.setSpacingBefore(10);
     document.add(transactionDetailsTitle);
 
-    // Create Table with Data
-    PdfPTable table = new PdfPTable(4);
+    // Create and format the table with 4 columns
+    PdfPTable table = new PdfPTable(4); // Columns: Date, Description, Amount, Category
     table.setWidthPercentage(100);
     table.setWidths(new float[]{2f, 3f, 2f, 2f});
 
@@ -155,43 +169,36 @@ public class ReportGenerator {
              "SELECT transaction_date, description, amount, category "
              + "FROM transactions "
              + "WHERE YEAR(transaction_date) = ? AND category = ? AND user_id = ? "
-             + "ORDER BY transaction_date")) {
+             + "ORDER BY transaction_date ASC")) {
 
-        pstmt.setInt(1, year);
-        pstmt.setString(2, category);
-        pstmt.setInt(3, userId);
+        pstmt.setInt(1, year);      // Set the value for year
+        pstmt.setString(2, category); // Set the value for category
+        pstmt.setInt(3, userId);    // Set the value for user ID
+
         ResultSet rs = pstmt.executeQuery();
-
         while (rs.next()) {
-            addTableRow(table, rs);
+            addTableRow(table, rs);  // Add rows to the table
         }
 
         document.add(table);
+
     } catch (SQLException e) {
         e.printStackTrace();
     }
 
-    // Add Summary Section
-    Font summaryFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD);
-    Paragraph summaryTitle = new Paragraph("Summary and Insights", summaryFont);
-    summaryTitle.setSpacingBefore(20);
-    document.add(summaryTitle);
+    // Thank you message at the end
+    Font thankYouFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD);
+    Paragraph thankYouMessage = new Paragraph("Thank you for using SmartFinance. We hope it helps you manage your finances effectively!", thankYouFont);
+    thankYouMessage.setAlignment(Element.ALIGN_CENTER);
+    thankYouMessage.setSpacingBefore(20);
+    document.add(thankYouMessage);
 
-    // A placeholder summary (you can analyze the data to generate dynamic insights)
-    Paragraph summaryText = new Paragraph("In this report, the total expenses for the category " + category + " in " + year + " are summarized. "
-            + "The report highlights the spending trends, such as peak expense months and the preferred payment methods. "
-            + "This information can help you make informed decisions about future budgeting and expense tracking.",
-            FontFactory.getFont(FontFactory.HELVETICA, 11));
-    document.add(summaryText);
-    document.add(Chunk.NEWLINE);
-
-    // Close Document and notify
+    // Close the document and notify the user
     document.close();
     JOptionPane.showMessageDialog(null, "PDF Report Generated Successfully!");
     openPdf(filePath);
 }
 
-// Helper methods for table
 private void addTableHeader(PdfPTable table, Font font) {
     String[] headers = {"Date", "Description", "Amount", "Category"};
     for (String header : headers) {
@@ -208,6 +215,20 @@ private void addTableRow(PdfPTable table, ResultSet rs) throws SQLException {
     table.addCell("₹" + rs.getString("amount"));
     table.addCell(rs.getString("category"));
 }
+
+
+
+private JFreeChart createChart(DefaultCategoryDataset dataset) {
+    JFreeChart chart = ChartFactory.createBarChart(
+        "Category Expenses", "Month", "Amount", dataset, PlotOrientation.VERTICAL,
+        true, true, false);
+
+    CategoryPlot plot = chart.getCategoryPlot();
+    plot.setDomainGridlinesVisible(true);
+    plot.setRangeGridlinesVisible(true);
+    return chart;
+}
+
 
     private void openPdf(String filePath) {
     try {
@@ -228,15 +249,6 @@ private void addTableRow(PdfPTable table, ResultSet rs) throws SQLException {
         JOptionPane.showMessageDialog(null, "Error opening PDF: " + e.getMessage());
     }
 }
-    private JFreeChart createChart(DefaultCategoryDataset dataset) {
-    JFreeChart chart = ChartFactory.createBarChart(
-        "Category Expenses", "Year", "Amount", dataset, PlotOrientation.VERTICAL,
-        true, true, false);
-
-    CategoryPlot plot = chart.getCategoryPlot();
-    plot.setDomainGridlinesVisible(true);
-    plot.setRangeGridlinesVisible(true);
-    return chart;
-}
+    
     
 }
