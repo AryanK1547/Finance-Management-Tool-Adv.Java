@@ -202,9 +202,9 @@ public class LoginForm extends javax.swing.JFrame {
         public void run() {
             // Initialize the LoginForm instance
            LoginForm loginForm = new LoginForm((userId, username) -> {
-    UserSession.getInstance().setUserId(userId);
-    MainDashboardForm mainDB = new MainDashboardForm(username, userId);
-    mainDB.setVisible(true);
+           UserSession.getInstance().setUserId(userId);
+           MainDashboardForm mainDB = new MainDashboardForm(username, userId);
+           mainDB.setVisible(true);
     
 });
 
@@ -212,7 +212,7 @@ public class LoginForm extends javax.swing.JFrame {
             loginForm.setVisible(true);
         }
     });
-}
+  }
 
 
 

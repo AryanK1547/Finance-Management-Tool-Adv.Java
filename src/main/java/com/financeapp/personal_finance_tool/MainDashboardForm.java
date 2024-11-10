@@ -3,10 +3,30 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.financeapp.personal_finance_tool;
-
+import org.jfree.chart.*;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Rectangle;  // iText's Rectangle
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
+import java.util.Map;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.itextpdf.awt.geom.Rectangle2D;
+import com.itextpdf.text.Document;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -19,23 +39,35 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
-import raven.datetime.component.date.DateEvent;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 import raven.datetime.component.date.DatePicker;
-import raven.datetime.component.date.DateSelectionListener;
+
 
 /**
  *
  * @author user
  */
 public class MainDashboardForm extends javax.swing.JFrame {
+ private int selectedAnalyzeYear;
+private String selectedAnalyzeCategory;
+
      private String loggedusername;
     private int userId;
      private User user;
@@ -68,6 +100,7 @@ public class MainDashboardForm extends javax.swing.JFrame {
      populateYearComboBox(url,username,password,cbRemoveYearFilter);
     populateMonthComboBox(url,username,password,cbRemoveMonth);
     populateDayComboBox(url,username,password,cbRemoveDay);
+     populateYearComboBox(url,username,password,cbAnalyzeYear);
     }
 
    
@@ -83,7 +116,7 @@ public class MainDashboardForm extends javax.swing.JFrame {
 
         ButtonPanel = new javax.swing.JPanel();
         btnShowTransactionModule = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnAnayliticsPanel = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         NavigationPanel = new javax.swing.JPanel();
@@ -180,6 +213,19 @@ public class MainDashboardForm extends javax.swing.JFrame {
         btnViewTransactionModule = new javax.swing.JButton();
         btnUpdateTransactionPanel = new javax.swing.JButton();
         btnRemoveTransactionModule = new javax.swing.JButton();
+        AnalyticsPanel = new javax.swing.JPanel();
+        AnalyticsNavigationPanel = new javax.swing.JPanel();
+        cbAnalyzeYear = new javax.swing.JComboBox<>();
+        cbAnalyzeCategory = new javax.swing.JComboBox<>();
+        btnAnalyzeGenerateReport = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        ChartDisplayPanel = new javax.swing.JPanel();
+        WelcomeAnalyticsPanel = new javax.swing.JPanel();
+        jLabel40 = new javax.swing.JLabel();
+        ProgressBarPanel = new javax.swing.JPanel();
+        jLabel41 = new javax.swing.JLabel();
+        pbAnaylyticsChartProgress = new javax.swing.JProgressBar();
+        AnalyticsMainChartPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -192,7 +238,12 @@ public class MainDashboardForm extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Budgeting");
+        btnAnayliticsPanel.setText("Analytics");
+        btnAnayliticsPanel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnayliticsPanelActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("jButton4");
 
@@ -202,27 +253,30 @@ public class MainDashboardForm extends javax.swing.JFrame {
         ButtonPanel.setLayout(ButtonPanelLayout);
         ButtonPanelLayout.setHorizontalGroup(
             ButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ButtonPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ButtonPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(ButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnShowTransactionModule, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(ButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnAnayliticsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnShowTransactionModule, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, ButtonPanelLayout.createSequentialGroup()
+                        .addGroup(ButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         ButtonPanelLayout.setVerticalGroup(
             ButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ButtonPanelLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(btnShowTransactionModule, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(btnShowTransactionModule, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(65, 65, 65)
+                .addComponent(btnAnayliticsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(73, 73, 73)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         NavigationPanel.setBackground(new java.awt.Color(0, 0, 0));
@@ -247,7 +301,7 @@ public class MainDashboardForm extends javax.swing.JFrame {
 
         txtUserName.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtUserName.setForeground(new java.awt.Color(0, 255, 51));
-        txtUserName.setText("txtlabelUserInfo");
+        txtUserName.setText("Username");
 
         txtUserID.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtUserID.setForeground(new java.awt.Color(0, 255, 0));
@@ -266,24 +320,27 @@ public class MainDashboardForm extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(txtUserID, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         NavigationPanelLayout.setVerticalGroup(
             NavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(NavigationPanelLayout.createSequentialGroup()
-                .addGap(1, 1, 1)
-                .addGroup(NavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtUserName)
-                    .addComponent(jLabel2)
-                    .addComponent(txtUserID)))
-            .addGroup(NavigationPanelLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel1))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavigationPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnLogoutSession, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(NavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(NavigationPanelLayout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(NavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtUserName)
+                            .addComponent(jLabel2)
+                            .addComponent(txtUserID)))
+                    .addGroup(NavigationPanelLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabel1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavigationPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnLogoutSession, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
 
         mainPanel.setLayout(new java.awt.CardLayout());
@@ -296,16 +353,16 @@ public class MainDashboardForm extends javax.swing.JFrame {
         WelcomePanelLayout.setHorizontalGroup(
             WelcomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WelcomePanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(208, Short.MAX_VALUE)
                 .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 805, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(101, 101, 101))
+                .addGap(140, 140, 140))
         );
         WelcomePanelLayout.setVerticalGroup(
             WelcomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(WelcomePanelLayout.createSequentialGroup()
-                .addGap(114, 114, 114)
+                .addGap(137, 137, 137)
                 .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(214, Short.MAX_VALUE))
         );
 
         mainPanel.add(WelcomePanel, "card3");
@@ -412,7 +469,7 @@ public class MainDashboardForm extends javax.swing.JFrame {
                         .addGroup(AddTransactionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cbAddCategory, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtAddDatePicked, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
                             .addComponent(txtAddAmount, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(54, 54, 54)
                         .addComponent(btnAddTransaction, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -545,7 +602,7 @@ public class MainDashboardForm extends javax.swing.JFrame {
                     .addGroup(ViewTransactionPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 945, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(192, Short.MAX_VALUE))
+                .addContainerGap(180, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ViewTransactionPanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -733,7 +790,7 @@ public class MainDashboardForm extends javax.swing.JFrame {
                                 .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtUpdateDate, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
                                 .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(cbUpdateCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -942,7 +999,7 @@ public class MainDashboardForm extends javax.swing.JFrame {
                                 .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtRemoveDate, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
                                 .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(cbRemoveCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1085,6 +1142,151 @@ public class MainDashboardForm extends javax.swing.JFrame {
 
         mainPanel.add(TransactionPanel, "card2");
 
+        cbAnalyzeYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        cbAnalyzeCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnAnalyzeGenerateReport.setText("Generate Report");
+        btnAnalyzeGenerateReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnalyzeGenerateReportActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Sample Report");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout AnalyticsNavigationPanelLayout = new javax.swing.GroupLayout(AnalyticsNavigationPanel);
+        AnalyticsNavigationPanel.setLayout(AnalyticsNavigationPanelLayout);
+        AnalyticsNavigationPanelLayout.setHorizontalGroup(
+            AnalyticsNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AnalyticsNavigationPanelLayout.createSequentialGroup()
+                .addGap(91, 91, 91)
+                .addComponent(cbAnalyzeYear, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 287, Short.MAX_VALUE)
+                .addComponent(cbAnalyzeCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(91, 91, 91)
+                .addComponent(jButton2)
+                .addGap(60, 60, 60)
+                .addComponent(btnAnalyzeGenerateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(153, 153, 153))
+        );
+        AnalyticsNavigationPanelLayout.setVerticalGroup(
+            AnalyticsNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AnalyticsNavigationPanelLayout.createSequentialGroup()
+                .addContainerGap(28, Short.MAX_VALUE)
+                .addGroup(AnalyticsNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AnalyticsNavigationPanelLayout.createSequentialGroup()
+                        .addGroup(AnalyticsNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbAnalyzeCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAnalyzeGenerateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbAnalyzeYear, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(16, 16, 16))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AnalyticsNavigationPanelLayout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addGap(22, 22, 22))))
+        );
+
+        ChartDisplayPanel.setLayout(new java.awt.CardLayout());
+
+        WelcomeAnalyticsPanel.setEnabled(false);
+
+        jLabel40.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel40.setText("<html>\n<h1>Welcome to Analytics Module: </h1>\n<p>Choose the Year and Category to gernerate Chart.</p></html>\n");
+        jLabel40.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout WelcomeAnalyticsPanelLayout = new javax.swing.GroupLayout(WelcomeAnalyticsPanel);
+        WelcomeAnalyticsPanel.setLayout(WelcomeAnalyticsPanelLayout);
+        WelcomeAnalyticsPanelLayout.setHorizontalGroup(
+            WelcomeAnalyticsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(WelcomeAnalyticsPanelLayout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, 777, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        WelcomeAnalyticsPanelLayout.setVerticalGroup(
+            WelcomeAnalyticsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(WelcomeAnalyticsPanelLayout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(259, Short.MAX_VALUE))
+        );
+
+        ChartDisplayPanel.add(WelcomeAnalyticsPanel, "card2");
+
+        jLabel41.setFont(new java.awt.Font("Segoe UI", 3, 48)); // NOI18N
+        jLabel41.setForeground(new java.awt.Color(0, 204, 255));
+        jLabel41.setText("The Chart Is Generating Please Wait.....");
+
+        javax.swing.GroupLayout ProgressBarPanelLayout = new javax.swing.GroupLayout(ProgressBarPanel);
+        ProgressBarPanel.setLayout(ProgressBarPanelLayout);
+        ProgressBarPanelLayout.setHorizontalGroup(
+            ProgressBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ProgressBarPanelLayout.createSequentialGroup()
+                .addGap(116, 116, 116)
+                .addGroup(ProgressBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel41, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pbAnaylyticsChartProgress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(159, Short.MAX_VALUE))
+        );
+        ProgressBarPanelLayout.setVerticalGroup(
+            ProgressBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ProgressBarPanelLayout.createSequentialGroup()
+                .addGap(138, 138, 138)
+                .addComponent(jLabel41)
+                .addGap(42, 42, 42)
+                .addComponent(pbAnaylyticsChartProgress, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(136, Short.MAX_VALUE))
+        );
+
+        ChartDisplayPanel.add(ProgressBarPanel, "card3");
+
+        javax.swing.GroupLayout AnalyticsMainChartPanelLayout = new javax.swing.GroupLayout(AnalyticsMainChartPanel);
+        AnalyticsMainChartPanel.setLayout(AnalyticsMainChartPanelLayout);
+        AnalyticsMainChartPanelLayout.setHorizontalGroup(
+            AnalyticsMainChartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1157, Short.MAX_VALUE)
+        );
+        AnalyticsMainChartPanelLayout.setVerticalGroup(
+            AnalyticsMainChartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 423, Short.MAX_VALUE)
+        );
+
+        ChartDisplayPanel.add(AnalyticsMainChartPanel, "card4");
+
+        javax.swing.GroupLayout AnalyticsPanelLayout = new javax.swing.GroupLayout(AnalyticsPanel);
+        AnalyticsPanel.setLayout(AnalyticsPanelLayout);
+        AnalyticsPanelLayout.setHorizontalGroup(
+            AnalyticsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AnalyticsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ChartDisplayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(AnalyticsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AnalyticsPanelLayout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(AnalyticsNavigationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        AnalyticsPanelLayout.setVerticalGroup(
+            AnalyticsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AnalyticsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ChartDisplayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(113, Short.MAX_VALUE))
+            .addGroup(AnalyticsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AnalyticsPanelLayout.createSequentialGroup()
+                    .addContainerGap(442, Short.MAX_VALUE)
+                    .addComponent(AnalyticsNavigationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        mainPanel.add(AnalyticsPanel, "card4");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -1092,8 +1294,8 @@ public class MainDashboardForm extends javax.swing.JFrame {
             .addComponent(NavigationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(ButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -1101,9 +1303,9 @@ public class MainDashboardForm extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(NavigationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ButtonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1488,10 +1690,76 @@ if (selectedRow != -1) {
                 TransactionModulesPanel.repaint();
     }//GEN-LAST:event_btnRemoveTransactionModuleActionPerformed
 
+    private void btnAnalyzeGenerateReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalyzeGenerateReportActionPerformed
+        // TODO add your handling code here:
+        // Get selected filters
+    String selectedYearString = cbAnalyzeYear.getSelectedItem().toString();
+    selectedAnalyzeYear = Integer.parseInt(selectedYearString);  // Assign to class-level variable
+
+    selectedAnalyzeCategory = cbAnalyzeCategory.getSelectedItem().toString();  // Assign to class-level variable
+    
+    // Show progress bar
+    showProgressBar();
+
+    // Start background task to fetch data and generate the chart
+    SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+        @Override
+        protected Void doInBackground() throws Exception {
+            // Simulate incremental progress
+            for (int i = 0; i <= 100; i += 20) {
+                Thread.sleep(200);  // Simulate a delay for progress
+                setProgress(i);  // Update progress bar incrementally
+            }
+            
+            // Fetch the data and generate the chart
+            createChartPanel(selectedAnalyzeYear, selectedAnalyzeCategory);
+            return null;
+        }
+
+        @Override
+        protected void done() {
+            // Once the task is complete, replace the progress bar with the chart
+            hideProgressBar();
+        }
+    };
+
+    // Update the progress bar's progress as the task progresses
+    worker.addPropertyChangeListener(evt1 -> {
+        if ("progress".equals(evt1.getPropertyName())) {
+            int progress = (Integer) evt1.getNewValue();
+            pbAnaylyticsChartProgress.setValue(progress);
+        }
+    });
+
+    // Execute the worker thread
+    worker.execute();
+    
+    }//GEN-LAST:event_btnAnalyzeGenerateReportActionPerformed
+
+    private void btnAnayliticsPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnayliticsPanelActionPerformed
+        // TODO add your handling code here:
+                populateCategoryComboBox(cbAnalyzeCategory);
+                mainPanel.removeAll(); // Remove all components from mainPanel
+                mainPanel.add(AnalyticsPanel); // Add the TransactionPanel to mainPanel
+                mainPanel.revalidate(); // Revalidate the mainPanel to refresh the layout
+                mainPanel.repaint(); 
+    }//GEN-LAST:event_btnAnayliticsPanelActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String userName = "John Doe";  // Replace with actual user name
+    int year = Integer.parseInt(cbAnalyzeYear.getSelectedItem().toString());
+    String category = cbAnalyzeCategory.getSelectedItem().toString();
+    
+    // Generate the report based on chart data // Notify the user
+    JOptionPane.showMessageDialog(null, "Report generated successfully!");
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
   public static void main(String args[]) {
+      Document d =new Document();
     /* Set the Nimbus look and feel */
     FlatMacDarkLaf.setup();
 
@@ -1516,18 +1784,26 @@ if (selectedRow != -1) {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AddTransactionPanel;
+    private javax.swing.JPanel AnalyticsMainChartPanel;
+    private javax.swing.JPanel AnalyticsNavigationPanel;
+    private javax.swing.JPanel AnalyticsPanel;
     private javax.swing.JPanel ButtonPanel;
+    private javax.swing.JPanel ChartDisplayPanel;
     private javax.swing.JPanel NavigationPanel;
+    private javax.swing.JPanel ProgressBarPanel;
     private javax.swing.JPanel RemoveTransactionPanel;
     private javax.swing.JPanel TransactionModulesPanel;
     private javax.swing.JPanel TransactionPanel;
     private javax.swing.JPanel TrascationChoicePanel;
     private javax.swing.JPanel UpdateTransactionsPanel;
     private javax.swing.JPanel ViewTransactionPanel;
+    private javax.swing.JPanel WelcomeAnalyticsPanel;
     private javax.swing.JPanel WelcomePanel;
     private javax.swing.JPanel WelcomePanelTrancationiModule;
     private javax.swing.JButton btnAddTransaction;
     private javax.swing.JButton btnAddTransactionModule;
+    private javax.swing.JButton btnAnalyzeGenerateReport;
+    private javax.swing.JButton btnAnayliticsPanel;
     private javax.swing.JButton btnLogoutSession;
     private javax.swing.JButton btnRemoveTransaction;
     private javax.swing.JButton btnRemoveTransactionModule;
@@ -1536,6 +1812,8 @@ if (selectedRow != -1) {
     private javax.swing.JButton btnUpdateTransactionPanel;
     private javax.swing.JButton btnViewTransactionModule;
     private javax.swing.JComboBox<String> cbAddCategory;
+    private javax.swing.JComboBox<String> cbAnalyzeCategory;
+    private javax.swing.JComboBox<String> cbAnalyzeYear;
     private javax.swing.JComboBox<String> cbRemoveCategory;
     private javax.swing.JComboBox<String> cbRemoveCategoryFilter;
     private javax.swing.JComboBox<String> cbRemoveDay;
@@ -1551,7 +1829,7 @@ if (selectedRow != -1) {
     private javax.swing.JComboBox<String> cbViewMonth;
     private javax.swing.JComboBox<String> cbViewYearFilter;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
@@ -1588,6 +1866,8 @@ if (selectedRow != -1) {
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -1600,6 +1880,7 @@ if (selectedRow != -1) {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JProgressBar pbAnaylyticsChartProgress;
     private javax.swing.JTable tabelRemoveTransactions;
     private javax.swing.JTable tabelUpdateTransactions;
     private javax.swing.JTable tabelViewAllTransactions;
@@ -1849,16 +2130,166 @@ public void populateCategoryComboBox(JComboBox<String> categoryComboBox) {
     }
 }
 
-    private void clearFieldsAfterDeletion() {
+private void clearFieldsAfterDeletion() {
    
     txtRemoveDate.setText("");
     cbRemoveCategory.setSelectedIndex(0); // Reset to default category
     txtRemoveAmount.setText("");
     txtRemoveDescription.setText("");
 }
+    // Show the progress bar
+private void showProgressBar() { 
+    ChartDisplayPanel.removeAll();
+    ChartDisplayPanel.add(ProgressBarPanel);
+    ChartDisplayPanel.revalidate();
+    ChartDisplayPanel.repaint();
+    pbAnaylyticsChartProgress.setValue(0);  // Reset the progress bar
+}
 
-
+// Hide the progress bar and show the generated chart
+private void hideProgressBar() {
+    JPanel chartPanel = createChartPanel(selectedAnalyzeYear, selectedAnalyzeCategory);  // Use generated data for chart
+    ChartDisplayPanel.removeAll();
+    ChartDisplayPanel.add(chartPanel);
+    ChartDisplayPanel.revalidate();
+    ChartDisplayPanel.repaint();
+}
+//private void generateCategoryExpenseChart(int year, String category) {
+//    // Fetch data based on the year and category
+//    Map<String, Double> categoryData = getCategoryExpenseData(year, category);
+//
+//    // Create the dataset for the chart
+//    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+//    for (Map.Entry<String, Double> entry : categoryData.entrySet()) {
+//        dataset.addValue(entry.getValue(), "Expenses", entry.getKey());
+//    }
+//
+//    // Generate the chart
+//    JFreeChart chart = createChart(dataset);
+//
+//    // Wrap the chart in a ChartPanel
+//    ChartPanel chartPanel = new ChartPanel(chart);
+//    chartPanel.setPreferredSize(new java.awt.Dimension(800, 600));
+//    chartPanel.setMouseWheelEnabled(true);
+//
+//    // Add the chart panel to ChartDisplayPanel
+//    ChartDisplayPanel.removeAll();
+//    ChartDisplayPanel.add(chartPanel);
+//    ChartDisplayPanel.revalidate();
+//    ChartDisplayPanel.repaint();
+//}
+private Map<String, Double> getCategoryExpenseData(int year, String category) {
+      // Initialize map with all months of the year and 0 expenses
+  Map<String, Double> categoryData = new LinkedHashMap<>();
+    String[] months = new java.text.DateFormatSymbols().getMonths();
+    
+    // Initialize the map with all months and set the expenses to 0 initially
+    for (int i = 0; i < 12; i++) {
+        categoryData.put(months[i], 0.0);
     }
+
+    // Query to fetch category data for the specific year, user, and category, grouping by month
+    String query = "SELECT MONTH(transaction_date) AS month_number, SUM(amount) AS total_expense "
+                 + "FROM transactions "
+                 + "WHERE YEAR(transaction_date) = ? AND category = ? AND user_id = ? "
+                 + "GROUP BY month_number ORDER BY month_number";
+
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/personal_finance", "root", "mysql");
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+        pstmt.setInt(1, year);
+        pstmt.setString(2, category);
+        pstmt.setInt(3, userId);
+        
+        ResultSet rs = pstmt.executeQuery();
+        while (rs.next()) {
+            int monthNumber = rs.getInt("month_number");
+            double totalExpense = rs.getDouble("total_expense");
+            
+            String monthName = months[monthNumber - 1];
+            categoryData.put(monthName, totalExpense);
+        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error retrieving data: " + e.getMessage());
+    }
+
+    return categoryData;
+}
+private JFreeChart createChart(DefaultCategoryDataset dataset) {
+    JFreeChart chart = ChartFactory.createBarChart(
+        "Category Expenses", "Year", "Amount", dataset, PlotOrientation.VERTICAL,
+        true, true, false);
+
+    CategoryPlot plot = chart.getCategoryPlot();
+    plot.setDomainGridlinesVisible(true);
+    plot.setRangeGridlinesVisible(true);
+    return chart;
+}
+private JPanel createChartPanel(int year, String category) {
+    // 1. Fetch the data for the specified year and category
+    Map<String, Double> categoryData = getCategoryExpenseData(year, category);
+
+    // 2. Create a dataset for the chart
+    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    String maxMonth = "";
+    double maxExpense = 0.0;
+
+    // 3. Populate the dataset with data for the chart
+    for (Map.Entry<String, Double> entry : categoryData.entrySet()) {
+        String month = entry.getKey();
+        double expense = entry.getValue();
+        dataset.addValue(expense, "Expenses", month);
+
+        // Find the month with the highest expense
+        if (expense > maxExpense) {
+            maxExpense = expense;
+            maxMonth = month;
+        }
+    }
+
+    // 4. Create the chart with the dataset
+    JFreeChart chart = createChart(dataset);
+
+    // 5. Wrap the chart in a ChartPanel
+    ChartPanel chartPanel = new ChartPanel(chart);
+    chartPanel.setPreferredSize(new java.awt.Dimension(800, 600));
+    chartPanel.setMouseWheelEnabled(true);
+
+    // 6. Create a label to display the month with the most expenses
+    String labelText = "<html><h1>Month with the Highest Expense:</h1><br>" 
+                        + "<h2><font color='White' size ='10'>" + maxMonth + "</font></h2><br>" 
+                        + "<font size='5' color='Green'><b>Amount: ₹" + String.format("%.2f", maxExpense) + "</b></font></html>";
+
+    JLabel monthLabel = new JLabel(labelText);
+    monthLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+    monthLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  // Add padding for better spacing
+    monthLabel.setPreferredSize(new Dimension(250, 100));
+
+    // 7. Create a panel to hold the chart and the label
+    JPanel panel = new JPanel();
+    panel.setLayout(new BorderLayout());
+
+    // 8. Add the chart panel and the label panel to the main panel
+    JPanel labelPanel = new JPanel();
+    labelPanel.setLayout(new BorderLayout());
+    labelPanel.add(monthLabel, BorderLayout.CENTER);
+
+    // 9. Place the label beside the chart (horizontally)
+    JPanel chartWithLabelPanel = new JPanel();
+    chartWithLabelPanel.setLayout(new BorderLayout());
+    chartWithLabelPanel.add(chartPanel, BorderLayout.CENTER);
+    chartWithLabelPanel.add(labelPanel, BorderLayout.EAST);
+
+    // 10. Return the final panel
+    panel.add(chartWithLabelPanel, BorderLayout.CENTER);
+
+    return panel;
+}
+
+
+
+}
 
 
 
