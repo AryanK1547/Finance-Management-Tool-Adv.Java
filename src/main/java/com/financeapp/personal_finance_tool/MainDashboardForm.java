@@ -21,7 +21,13 @@ import java.util.Map;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.itextpdf.awt.geom.Rectangle2D;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -29,6 +35,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -1747,12 +1755,13 @@ if (selectedRow != -1) {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        String userName = "John Doe";  // Replace with actual user name
-    int year = Integer.parseInt(cbAnalyzeYear.getSelectedItem().toString());
-    String category = cbAnalyzeCategory.getSelectedItem().toString();
-    
-    // Generate the report based on chart data // Notify the user
-    JOptionPane.showMessageDialog(null, "Report generated successfully!");
+        try {
+            // Call the method to generate PDF report with chart
+            generatePdfWithChart(selectedAnalyzeYear, selectedAnalyzeCategory, userId);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error generating report: " + ex.getMessage());
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -2285,6 +2294,107 @@ private JPanel createChartPanel(int year, String category) {
     panel.add(chartWithLabelPanel, BorderLayout.CENTER);
 
     return panel;
+}
+private void generatePdfWithChart(int year, String category, int userId) throws DocumentException, IOException {
+    // Step 1: Fetch the chart and data for the year and category
+    Map<String, Double> categoryData = getCategoryExpenseData(year, category);
+    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    for (Map.Entry<String, Double> entry : categoryData.entrySet()) {
+        dataset.addValue(entry.getValue(), "Expenses", entry.getKey());
+    }
+
+    JFreeChart chart = createChart(dataset);
+
+    // Step 2: Capture the chart as an image
+    BufferedImage chartImage = chart.createBufferedImage(800, 600);
+
+    // Step 3: Set file path to save the PDF (specifying the file path explicitly)
+    String filePath = "YearlyExpenseReport_" + year + "_" + category + ".pdf";
+    
+    // Step 4: Create PDF document
+    Document document = new Document();
+    PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+    document.open();
+
+    // Step 5: Add report title
+     com.itextpdf.text.Font font = FontFactory.getFont(FontFactory.TIMES_ROMAN, 16, Font.BOLD);
+Paragraph title = new Paragraph("Yearly Expense Report for " + category + " (" + year + ")", font);
+title.setAlignment(Element.ALIGN_CENTER);
+document.add(title);
+    // Add line break
+    document.add(Chunk.NEWLINE);
+
+    // Step 6: Add chart image to PDF
+    Image chartPdfImage = Image.getInstance(writer.getDirectContent(), chartImage, 1);
+    chartPdfImage.setAlignment(Image.ALIGN_CENTER);
+    chartPdfImage.scaleToFit(500, 400);
+    document.add(chartPdfImage);
+
+    // Step 7: Add transaction details to the PDF
+     ;
+        Paragraph transactionDetailsTitle = new Paragraph("\nTransaction Details for " + category + " in " + year, font);
+        document.add(transactionDetailsTitle);
+
+    // Step 8: Retrieve transaction data
+    String transactionQuery = "SELECT * FROM transactions WHERE YEAR(transaction_date) = ? AND category = ? AND user_id = ?";
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/personal_finance", "root", "mysql");
+         PreparedStatement pstmt = conn.prepareStatement(transactionQuery)) {
+
+        pstmt.setInt(1, year);
+        pstmt.setString(2, category);
+        pstmt.setInt(3, userId);
+
+        ResultSet rs = pstmt.executeQuery();
+        PdfPTable table = new PdfPTable(5); // 5 columns for date, description, amount, method, and month
+        table.setWidthPercentage(100);
+        table.addCell("Date");
+        table.addCell("Description");
+        table.addCell("Amount");
+        table.addCell("Payment Method");
+        table.addCell("Month");
+
+        while (rs.next()) {
+            table.addCell(rs.getString("transaction_date"));
+            table.addCell(rs.getString("description"));
+            table.addCell("₹" + rs.getString("amount"));
+            table.addCell(rs.getString("payment_method"));
+            table.addCell(rs.getString("month"));
+        }
+
+        document.add(table);
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    // Step 9: Close the document
+    document.close();
+
+    // Step 10: Notify the user
+    JOptionPane.showMessageDialog(null, "PDF Report Generated Successfully!");
+
+    // Step 11: Open the PDF file
+    openPdf(filePath);
+}
+
+private void openPdf(String filePath) {
+    try {
+        // Open the generated PDF using the default system viewer
+        File pdfFile = new File(filePath);
+        if (pdfFile.exists()) {
+            if (Desktop.isDesktopSupported()) {
+                Desktop desktop = Desktop.getDesktop();
+                desktop.open(pdfFile);
+            } else {
+                JOptionPane.showMessageDialog(null, "Desktop is not supported on your system.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "PDF file does not exist.");
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error opening PDF: " + e.getMessage());
+    }
 }
 
 
