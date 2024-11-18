@@ -76,6 +76,12 @@
       <version>0.3</version>
       <type>jar</type>
     </dependency>
+    <dependency>
+      <groupId>cn.lzgabel.jaxb</groupId>
+      <artifactId>codemodel</artifactId>
+      <version>4.0.0</version>
+      <type>jar</type>
+    </dependency>
   </dependencies>
 
   <repositories>

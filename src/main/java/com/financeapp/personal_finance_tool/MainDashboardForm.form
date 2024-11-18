@@ -41,18 +41,12 @@
                   <Component id="mainPanel" min="-2" pref="542" max="-2" attributes="0"/>
                   <Component id="ButtonPanel" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="ButtonPanel">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="0" red="0" type="rgb"/>
-        </Property>
-      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -60,15 +54,12 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="btnAboutSoftwareandCreatorVision" max="32767" attributes="0"/>
                       <Component id="btnAnayliticsPanel" alignment="1" max="32767" attributes="0"/>
                       <Component id="btnShowTransactionModule" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="btnGenerateReport" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnGenerateReport" min="-2" pref="170" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="jButton5" min="-2" pref="117" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -82,11 +73,11 @@
                   <Component id="btnShowTransactionModule" min="-2" pref="69" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
                   <Component id="btnAnayliticsPanel" min="-2" pref="69" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
-                  <Component id="btnGenerateReport" min="-2" pref="45" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
-                  <Component id="jButton5" min="-2" pref="46" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
+                  <Component id="btnGenerateReport" min="-2" pref="71" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
+                  <Component id="btnAboutSoftwareandCreatorVision" min="-2" pref="58" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -94,6 +85,15 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="btnShowTransactionModule">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="99" red="0" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="18" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Transaction"/>
           </Properties>
           <Events>
@@ -102,6 +102,15 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnAnayliticsPanel">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="66" red="66" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="18" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Analytics"/>
           </Properties>
           <Events>
@@ -110,16 +119,37 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnGenerateReport">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="66" green="66" red="0" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="18" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Generate Report"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGenerateReportActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton5">
+        <Component class="javax.swing.JButton" name="btnAboutSoftwareandCreatorVision">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="99" green="99" red="99" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="18" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="About"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAboutSoftwareandCreatorVisionActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -170,7 +200,7 @@
                           <Component id="btnLogoutSession" min="-2" pref="31" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="8" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -198,7 +228,7 @@
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="24" style="1"/>
+              <Font name="Segoe UI" size="36" style="1"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -248,18 +278,18 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="208" max="32767" attributes="0"/>
-                      <Component id="jLabel14" min="-2" pref="805" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="140" max="-2" attributes="0"/>
+                      <EmptySpace pref="133" max="32767" attributes="0"/>
+                      <Component id="jLabel14" min="-2" pref="952" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="137" max="-2" attributes="0"/>
-                      <Component id="jLabel14" min="-2" pref="191" max="-2" attributes="0"/>
-                      <EmptySpace pref="214" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
+                      <Component id="jLabel14" min="-2" pref="290" max="-2" attributes="0"/>
+                      <EmptySpace pref="153" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -268,9 +298,9 @@
             <Component class="javax.swing.JLabel" name="jLabel14">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Viner Hand ITC" size="36" style="0"/>
+                  <Font name="Tw Cen MT Condensed Extra Bold" size="48" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Welcome To Finance Management Tool"/>
+                <Property name="text" type="java.lang.String" value="&lt;html&gt;Welcome To Finance Management Tool&lt;/html&gt; "/>
               </Properties>
             </Component>
           </SubComponents>
@@ -1632,9 +1662,9 @@
                   </Group>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace pref="442" max="32767" attributes="0"/>
+                          <EmptySpace pref="460" max="32767" attributes="0"/>
                           <Component id="AnalyticsNavigationPanel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="8" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -1647,36 +1677,35 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
-                          <Component id="cbAnalyzeYear" min="-2" pref="142" max="-2" attributes="0"/>
-                          <EmptySpace pref="287" max="32767" attributes="0"/>
-                          <Component id="cbAnalyzeCategory" min="-2" pref="119" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
-                          <Component id="jButton2" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="134" max="-2" attributes="0"/>
+                          <Component id="cbAnalyzeYear" min="-2" pref="216" max="-2" attributes="0"/>
+                          <EmptySpace pref="85" max="32767" attributes="0"/>
+                          <Component id="cbAnalyzeCategory" min="-2" pref="196" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
                           <Component id="btnAnalyzeGenerateReport" min="-2" pref="139" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="153" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
+                          <Component id="btnGeneratePieChart" min="-2" pref="112" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="210" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace pref="28" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="cbAnalyzeCategory" alignment="3" min="-2" pref="49" max="-2" attributes="0"/>
-                                      <Component id="btnAnalyzeGenerateReport" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                                      <Component id="cbAnalyzeYear" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="jButton2" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                              </Group>
+                          <EmptySpace min="28" pref="28" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="cbAnalyzeCategory" alignment="3" max="32767" attributes="0"/>
+                              <Component id="cbAnalyzeYear" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="btnAnalyzeGenerateReport" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
+                              <Component id="btnGeneratePieChart" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1714,18 +1743,18 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btnAnalyzeGenerateReport">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Generate Report"/>
+                    <Property name="text" type="java.lang.String" value="Bar Graph"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAnalyzeGenerateReportActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton2">
+                <Component class="javax.swing.JButton" name="btnGeneratePieChart">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Sample Report"/>
+                    <Property name="text" type="java.lang.String" value="Pie Chart"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGeneratePieChartActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -1748,18 +1777,18 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                              <Component id="jLabel40" min="-2" pref="777" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jLabel40" pref="1145" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
-                              <Component id="jLabel40" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="259" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jLabel40" min="-2" pref="426" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1769,6 +1798,13 @@
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Segoe UI" size="24" style="1"/>
+                        </Property>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                        </Property>
+                        <Property name="horizontalAlignment" type="int" value="0"/>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="2" name="C:\Users\user\Downloads\Analytics Module.jpg"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;h1&gt;Welcome to Analytics Module: &lt;/h1&gt;&#xa;&lt;p&gt;Choose the Year and Category to gernerate Chart.&lt;/p&gt;&lt;/html&gt;&#xa;"/>
                         <Property name="horizontalTextPosition" type="int" value="0"/>

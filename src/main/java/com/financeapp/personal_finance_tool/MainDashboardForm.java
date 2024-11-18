@@ -63,8 +63,10 @@ import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 import raven.datetime.component.date.DatePicker;
 
 
@@ -126,7 +128,7 @@ private String selectedAnalyzeCategory;
         btnShowTransactionModule = new javax.swing.JButton();
         btnAnayliticsPanel = new javax.swing.JButton();
         btnGenerateReport = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnAboutSoftwareandCreatorVision = new javax.swing.JButton();
         NavigationPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btnLogoutSession = new javax.swing.JButton();
@@ -226,7 +228,7 @@ private String selectedAnalyzeCategory;
         cbAnalyzeYear = new javax.swing.JComboBox<>();
         cbAnalyzeCategory = new javax.swing.JComboBox<>();
         btnAnalyzeGenerateReport = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnGeneratePieChart = new javax.swing.JButton();
         ChartDisplayPanel = new javax.swing.JPanel();
         WelcomeAnalyticsPanel = new javax.swing.JPanel();
         jLabel40 = new javax.swing.JLabel();
@@ -237,8 +239,9 @@ private String selectedAnalyzeCategory;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        ButtonPanel.setBackground(new java.awt.Color(0, 0, 0));
-
+        btnShowTransactionModule.setBackground(new java.awt.Color(0, 153, 51));
+        btnShowTransactionModule.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnShowTransactionModule.setForeground(new java.awt.Color(255, 255, 255));
         btnShowTransactionModule.setText("Transaction");
         btnShowTransactionModule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -246,6 +249,9 @@ private String selectedAnalyzeCategory;
             }
         });
 
+        btnAnayliticsPanel.setBackground(new java.awt.Color(102, 102, 0));
+        btnAnayliticsPanel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnAnayliticsPanel.setForeground(new java.awt.Color(255, 255, 255));
         btnAnayliticsPanel.setText("Analytics");
         btnAnayliticsPanel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -253,6 +259,9 @@ private String selectedAnalyzeCategory;
             }
         });
 
+        btnGenerateReport.setBackground(new java.awt.Color(0, 102, 102));
+        btnGenerateReport.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnGenerateReport.setForeground(new java.awt.Color(255, 255, 255));
         btnGenerateReport.setText("Generate Report");
         btnGenerateReport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -260,7 +269,15 @@ private String selectedAnalyzeCategory;
             }
         });
 
-        jButton5.setText("About");
+        btnAboutSoftwareandCreatorVision.setBackground(new java.awt.Color(153, 153, 153));
+        btnAboutSoftwareandCreatorVision.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnAboutSoftwareandCreatorVision.setForeground(new java.awt.Color(255, 255, 255));
+        btnAboutSoftwareandCreatorVision.setText("About");
+        btnAboutSoftwareandCreatorVision.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAboutSoftwareandCreatorVisionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ButtonPanelLayout = new javax.swing.GroupLayout(ButtonPanel);
         ButtonPanel.setLayout(ButtonPanelLayout);
@@ -269,14 +286,12 @@ private String selectedAnalyzeCategory;
             .addGroup(ButtonPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(ButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAboutSoftwareandCreatorVision, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAnayliticsPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnShowTransactionModule, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(ButtonPanelLayout.createSequentialGroup()
-                        .addComponent(btnGenerateReport)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ButtonPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnGenerateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         ButtonPanelLayout.setVerticalGroup(
@@ -286,11 +301,11 @@ private String selectedAnalyzeCategory;
                 .addComponent(btnShowTransactionModule, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(65, 65, 65)
                 .addComponent(btnAnayliticsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(85, 85, 85)
-                .addComponent(btnGenerateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnGenerateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(72, 72, 72)
+                .addComponent(btnAboutSoftwareandCreatorVision, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42))
         );
 
         NavigationPanel.setBackground(new java.awt.Color(0, 0, 0));
@@ -306,7 +321,7 @@ private String selectedAnalyzeCategory;
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Finance Management Tool");
@@ -354,29 +369,29 @@ private String selectedAnalyzeCategory;
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NavigationPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btnLogoutSession, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         mainPanel.setLayout(new java.awt.CardLayout());
 
-        jLabel14.setFont(new java.awt.Font("Viner Hand ITC", 0, 36)); // NOI18N
-        jLabel14.setText("Welcome To Finance Management Tool");
+        jLabel14.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 48)); // NOI18N
+        jLabel14.setText("<html>Welcome To Finance Management Tool</html> ");
 
         javax.swing.GroupLayout WelcomePanelLayout = new javax.swing.GroupLayout(WelcomePanel);
         WelcomePanel.setLayout(WelcomePanelLayout);
         WelcomePanelLayout.setHorizontalGroup(
             WelcomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WelcomePanelLayout.createSequentialGroup()
-                .addContainerGap(208, Short.MAX_VALUE)
-                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 805, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(140, 140, 140))
+                .addContainerGap(133, Short.MAX_VALUE)
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 952, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68))
         );
         WelcomePanelLayout.setVerticalGroup(
             WelcomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(WelcomePanelLayout.createSequentialGroup()
-                .addGap(137, 137, 137)
-                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(214, Short.MAX_VALUE))
+                .addGap(99, 99, 99)
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(153, Short.MAX_VALUE))
         );
 
         mainPanel.add(WelcomePanel, "card3");
@@ -1160,17 +1175,17 @@ private String selectedAnalyzeCategory;
 
         cbAnalyzeCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        btnAnalyzeGenerateReport.setText("Generate Report");
+        btnAnalyzeGenerateReport.setText("Bar Graph");
         btnAnalyzeGenerateReport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAnalyzeGenerateReportActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Sample Report");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnGeneratePieChart.setText("Pie Chart");
+        btnGeneratePieChart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnGeneratePieChartActionPerformed(evt);
             }
         });
 
@@ -1179,30 +1194,30 @@ private String selectedAnalyzeCategory;
         AnalyticsNavigationPanelLayout.setHorizontalGroup(
             AnalyticsNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AnalyticsNavigationPanelLayout.createSequentialGroup()
-                .addGap(91, 91, 91)
-                .addComponent(cbAnalyzeYear, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 287, Short.MAX_VALUE)
-                .addComponent(cbAnalyzeCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(91, 91, 91)
-                .addComponent(jButton2)
-                .addGap(60, 60, 60)
+                .addGap(134, 134, 134)
+                .addComponent(cbAnalyzeYear, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                .addComponent(cbAnalyzeCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56)
                 .addComponent(btnAnalyzeGenerateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(153, 153, 153))
+                .addGap(113, 113, 113)
+                .addComponent(btnGeneratePieChart, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(210, 210, 210))
         );
         AnalyticsNavigationPanelLayout.setVerticalGroup(
             AnalyticsNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AnalyticsNavigationPanelLayout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
-                .addGroup(AnalyticsNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AnalyticsNavigationPanelLayout.createSequentialGroup()
-                        .addGroup(AnalyticsNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cbAnalyzeCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAnalyzeGenerateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbAnalyzeYear, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(16, 16, 16))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AnalyticsNavigationPanelLayout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addGap(22, 22, 22))))
+                .addGap(28, 28, 28)
+                .addGroup(AnalyticsNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbAnalyzeCategory)
+                    .addComponent(cbAnalyzeYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24))
+            .addGroup(AnalyticsNavigationPanelLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(AnalyticsNavigationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAnalyzeGenerateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGeneratePieChart, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         ChartDisplayPanel.setLayout(new java.awt.CardLayout());
@@ -1210,6 +1225,9 @@ private String selectedAnalyzeCategory;
         WelcomeAnalyticsPanel.setEnabled(false);
 
         jLabel40.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel40.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel40.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel40.setIcon(new javax.swing.ImageIcon("C:\\Users\\user\\Downloads\\Analytics Module.jpg")); // NOI18N
         jLabel40.setText("<html>\n<h1>Welcome to Analytics Module: </h1>\n<p>Choose the Year and Category to gernerate Chart.</p></html>\n");
         jLabel40.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
@@ -1218,16 +1236,16 @@ private String selectedAnalyzeCategory;
         WelcomeAnalyticsPanelLayout.setHorizontalGroup(
             WelcomeAnalyticsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(WelcomeAnalyticsPanelLayout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, 777, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, 1145, Short.MAX_VALUE)
+                .addContainerGap())
         );
         WelcomeAnalyticsPanelLayout.setVerticalGroup(
             WelcomeAnalyticsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(WelcomeAnalyticsPanelLayout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(259, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         ChartDisplayPanel.add(WelcomeAnalyticsPanel, "card2");
@@ -1294,9 +1312,9 @@ private String selectedAnalyzeCategory;
                 .addContainerGap(113, Short.MAX_VALUE))
             .addGroup(AnalyticsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AnalyticsPanelLayout.createSequentialGroup()
-                    .addContainerGap(442, Short.MAX_VALUE)
+                    .addContainerGap(460, Short.MAX_VALUE)
                     .addComponent(AnalyticsNavigationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(8, Short.MAX_VALUE)))
         );
 
         mainPanel.add(AnalyticsPanel, "card4");
@@ -1319,8 +1337,7 @@ private String selectedAnalyzeCategory;
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(ButtonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
@@ -1710,13 +1727,21 @@ if (selectedRow != -1) {
     String selectedYearString = cbAnalyzeYear.getSelectedItem().toString();
     selectedAnalyzeYear = Integer.parseInt(selectedYearString);  // Assign to class-level variable
 
+  // Assign to class-level variable
+    
+                                                        
+    // Get selected filters
+  
+    selectedAnalyzeYear = Integer.parseInt(selectedYearString);  // Assign to class-level variable
     selectedAnalyzeCategory = cbAnalyzeCategory.getSelectedItem().toString();  // Assign to class-level variable
     
     // Show progress bar
     showProgressBar();
 
-    // Start background task to fetch data and generate the chart
+    // Start background task to fetch data and generate the Bar Chart
     SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+        private JPanel barChartPanel; // Store the bar chart panel
+
         @Override
         protected Void doInBackground() throws Exception {
             // Simulate incremental progress
@@ -1725,15 +1750,23 @@ if (selectedRow != -1) {
                 setProgress(i);  // Update progress bar incrementally
             }
             
-            // Fetch the data and generate the chart
-            createChartPanel(selectedAnalyzeYear, selectedAnalyzeCategory);
+            // Fetch the data and generate the bar chart
+            barChartPanel = createBarChartPanel(selectedAnalyzeYear, selectedAnalyzeCategory);
             return null;
         }
 
         @Override
         protected void done() {
-            // Once the task is complete, replace the progress bar with the chart
+            // Once the task is complete, replace the progress bar with the bar chart
             hideProgressBar();
+            if (barChartPanel != null) {
+                ChartDisplayPanel.removeAll();
+                ChartDisplayPanel.add(barChartPanel);
+                ChartDisplayPanel.revalidate();
+                ChartDisplayPanel.repaint();
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to generate the bar chart. Please try again.");
+            }
         }
     };
 
@@ -1747,6 +1780,8 @@ if (selectedRow != -1) {
 
     // Execute the worker thread
     worker.execute();
+
+
     
     }//GEN-LAST:event_btnAnalyzeGenerateReportActionPerformed
 
@@ -1759,16 +1794,64 @@ if (selectedRow != -1) {
                 mainPanel.repaint(); 
     }//GEN-LAST:event_btnAnayliticsPanelActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnGeneratePieChartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGeneratePieChartActionPerformed
         // TODO add your handling code here:
-        try {
-            // Call the method to generate PDF report with chart
-            generatePdfWithChart(selectedAnalyzeYear, selectedAnalyzeCategory, userId);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error generating report: " + ex.getMessage());
+                int selectedAnalyzeYear = Integer.parseInt(cbAnalyzeYear.getSelectedItem().toString());  // Assign to class-level variable
+
+        // Get selected category as a string from the combo box
+        String selectedAnalyzeCategory = cbAnalyzeCategory.getSelectedItem().toString();  // Assign to class-level variable                                     
+    // Show the progress bar
+    showProgressBar();
+
+    // Disable the button to prevent multiple executions
+    btnGeneratePieChart.setEnabled(false);
+
+    // Start background task to generate Pie Chart
+    SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+        private JPanel chartPanel;
+
+        @Override
+        protected Void doInBackground() throws Exception {
+            // Simulate progress
+            for (int i = 0; i <= 100; i += 20) {
+                Thread.sleep(200);  // Simulate delay
+                setProgress(i);  // Update progress
+            }
+
+            // Generate the chart panel with actual data
+            chartPanel = createMonthlyExpenditurePieChart(selectedAnalyzeYear, selectedAnalyzeCategory);
+            return null;
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+
+        @Override
+        protected void done() {
+            // Once done, replace the progress bar with the chart
+            pbAnaylyticsChartProgress.setVisible(false);
+            btnGeneratePieChart.setEnabled(true); // Re-enable the button
+
+            if (chartPanel != null) {
+                ChartDisplayPanel.removeAll();
+                ChartDisplayPanel.add(chartPanel);
+                ChartDisplayPanel.revalidate();
+                ChartDisplayPanel.repaint();
+            } else {
+                // Display a message if the chart failed to generate
+                JOptionPane.showMessageDialog(null, "Failed to generate the chart. Please try again.");
+            }
+        }
+    };
+
+    // Add progress listener to update the progress bar
+    worker.addPropertyChangeListener(evt1 -> {
+        if ("progress".equals(evt1.getPropertyName())) {
+            int progress = (Integer) evt1.getNewValue();
+            pbAnaylyticsChartProgress.setValue(progress);
+        }
+    });
+
+    // Execute the worker
+    worker.execute();
+    }//GEN-LAST:event_btnGeneratePieChartActionPerformed
 
     private void btnGenerateReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateReportActionPerformed
             // TODO add your handling code here:
@@ -1789,13 +1872,17 @@ if (selectedRow != -1) {
 
     }//GEN-LAST:event_btnGenerateReportActionPerformed
 
+    private void btnAboutSoftwareandCreatorVisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAboutSoftwareandCreatorVisionActionPerformed
+showAboutDialog();        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAboutSoftwareandCreatorVisionActionPerformed
+
     /**
      * @param args the command line arguments
      */
   public static void main(String args[]) {
       Document d =new Document();
     /* Set the Nimbus look and feel */
-    FlatLightLaf.setup();
+    FlatMacDarkLaf.setup();
 
     //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
     /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -1834,10 +1921,12 @@ if (selectedRow != -1) {
     private javax.swing.JPanel WelcomeAnalyticsPanel;
     private javax.swing.JPanel WelcomePanel;
     private javax.swing.JPanel WelcomePanelTrancationiModule;
+    private javax.swing.JButton btnAboutSoftwareandCreatorVision;
     private javax.swing.JButton btnAddTransaction;
     private javax.swing.JButton btnAddTransactionModule;
     private javax.swing.JButton btnAnalyzeGenerateReport;
     private javax.swing.JButton btnAnayliticsPanel;
+    private javax.swing.JButton btnGeneratePieChart;
     private javax.swing.JButton btnGenerateReport;
     private javax.swing.JButton btnLogoutSession;
     private javax.swing.JButton btnRemoveTransaction;
@@ -1864,8 +1953,6 @@ if (selectedRow != -1) {
     private javax.swing.JComboBox<String> cbViewMonth;
     private javax.swing.JComboBox<String> cbViewYearFilter;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1962,6 +2049,117 @@ if (selectedRow != -1) {
 //        JOptionPane.showMessageDialog(this, "Error fetching transactions: " + e.getMessage());
 //    }
 //}
+    
+
+    
+    private JPanel createMonthlyExpenditurePieChart(int year, String category) {
+    // Step 1: Fetch data
+    Map<String, Double> monthlyExpenditure = fetchMonthlyExpenditureData(year, category);
+
+    if (monthlyExpenditure.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "No data available for the selected filters.");
+        return null;
+    }
+
+    // Step 2: Create dataset
+    DefaultPieDataset dataset = new DefaultPieDataset();
+    monthlyExpenditure.forEach(dataset::setValue);
+
+    // Step 3: Create the pie chart
+    JFreeChart pieChart = ChartFactory.createPieChart(
+        "Monthly Expenditure for " + category + " (" + year + ")",
+        dataset,
+        true,  // Include legend
+        true,  // Include tooltips
+        false  // Do not generate URLs
+    );
+
+    // Step 4: Style the chart (optional)
+    PiePlot plot = (PiePlot) pieChart.getPlot();
+    plot.setCircular(true);
+    plot.setLabelFont(new Font("SansSerif", Font.PLAIN, 12));
+    plot.setLabelGap(0.02);
+
+    // Step 5: Create a ChartPanel
+    ChartPanel chartPanel = new ChartPanel(pieChart);
+    chartPanel.setPreferredSize(new Dimension(600, 400));
+
+    // Return the panel
+    return chartPanel;
+}
+
+    private void createChartPanelPie(int year, String category) {
+    Map<String, Double> expenditureData = fetchMonthlyExpenditureData(year, category);
+
+    if (expenditureData.isEmpty()) {
+        System.out.println("No data found for the given year and category!");
+        JOptionPane.showMessageDialog(null, "No data available for the selected filters.");
+        return;
+    }
+
+    DefaultPieDataset dataset = new DefaultPieDataset();
+    expenditureData.forEach((month, total) -> {
+        System.out.println("Adding to dataset: Month = " + month + ", Total = " + total);
+        dataset.setValue(month, total);
+    });
+
+    JFreeChart pieChart = ChartFactory.createPieChart(
+        "Monthly Expenditure Analysis (" + category + ", " + year + ")",
+        dataset,
+        true,
+        true,
+        false
+    );
+
+    ChartPanel chartPanel = new ChartPanel(pieChart);
+    chartPanel.setPreferredSize(new Dimension(mainPanel.getWidth(), mainPanel.getHeight()));
+
+    // Replace content in main panel
+    mainPanel.removeAll();
+    mainPanel.add(chartPanel);
+    mainPanel.revalidate();
+    mainPanel.repaint();
+}
+
+    
+ private Map<String, Double> fetchMonthlyExpenditureData(int year, String category) {
+    Map<String, Double> data = new HashMap<>();
+
+    try (Connection conn = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/personal_finance", "root", "mysql");
+         PreparedStatement pstmt = conn.prepareStatement(
+             "SELECT MONTHNAME(transaction_date) AS month, SUM(amount) AS total " +
+                 "FROM transactions " +
+                 "WHERE YEAR(transaction_date) = ? AND category = ? " +
+                 "GROUP BY MONTH(transaction_date), MONTHNAME(transaction_date) " +
+                 "ORDER BY MONTH(transaction_date)")) {
+
+        pstmt.setInt(1, year);
+        pstmt.setString(2, category);
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            String month = rs.getString("month");
+            double total = rs.getDouble("total");
+            data.put(month, total); // Add data to the map
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error fetching data: " + e.getMessage());
+    }
+
+    if (data.isEmpty()) {
+        System.out.println("EXPENDITURE DATA IS NOT FOUND for the selected year and category.");
+    } else {
+        System.out.println("Fetched data: " + data);
+    }
+
+    return data;
+}
+
+
+
     private void loadTransactionsToTable(JTable table) {
     String[] columnNames = {"Transaction ID","Category", "Description", "Amount", "Date"};
 
@@ -2188,6 +2386,15 @@ private void hideProgressBar() {
     ChartDisplayPanel.revalidate();
     ChartDisplayPanel.repaint();
 }
+private void HideProgressBar() {
+    // Hide the progress bar
+    pbAnaylyticsChartProgress.setVisible(false);
+
+    // Ensure ChartDisplayPanel is updated
+    ChartDisplayPanel.revalidate();
+    ChartDisplayPanel.repaint();
+}
+
 //private void generateCategoryExpenseChart(int year, String category) {
 //    // Fetch data based on the year and category
 //    Map<String, Double> categoryData = getCategoryExpenseData(year, category);
@@ -2261,65 +2468,103 @@ private JFreeChart createChart(DefaultCategoryDataset dataset) {
     return chart;
 }
 private JPanel createChartPanel(int year, String category) {
-    // 1. Fetch the data for the specified year and category
-    Map<String, Double> categoryData = getCategoryExpenseData(year, category);
+    // Step 1: Fetch data
+    Map<String, Double> expenditureData = fetchMonthlyExpenditureData(year, category);
+    if (expenditureData.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "No data available for the selected filters.");
+        return null;
+    }
 
-    // 2. Create a dataset for the chart
-    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-    String maxMonth = "";
-    double maxExpense = 0.0;
+    // Step 2: Create dataset and calculate insights
+    DefaultPieDataset dataset = new DefaultPieDataset();
+    String highestExpenseMonth = null;
+    double highestExpenseValue = Double.MIN_VALUE;
+    double totalExpenditure = 0;
 
-    // 3. Populate the dataset with data for the chart
-    for (Map.Entry<String, Double> entry : categoryData.entrySet()) {
+    for (Map.Entry<String, Double> entry : expenditureData.entrySet()) {
         String month = entry.getKey();
-        double expense = entry.getValue();
-        dataset.addValue(expense, "Expenses", month);
+        double value = entry.getValue();
+        dataset.setValue(month, value);
 
-        // Find the month with the highest expense
-        if (expense > maxExpense) {
-            maxExpense = expense;
-            maxMonth = month;
+        totalExpenditure += value;
+        if (value > highestExpenseValue) {
+            highestExpenseValue = value;
+            highestExpenseMonth = month;
         }
     }
 
-    // 4. Create the chart with the dataset
-    JFreeChart chart = createChart(dataset);
+    double averageExpenditure = totalExpenditure / expenditureData.size();
+    double highestExpensePercentage = (highestExpenseValue / totalExpenditure) * 100;
 
-    // 5. Wrap the chart in a ChartPanel
-    ChartPanel chartPanel = new ChartPanel(chart);
-    chartPanel.setPreferredSize(new java.awt.Dimension(800, 600));
-    chartPanel.setMouseWheelEnabled(true);
+    // Step 3: Create the pie chart
+    JFreeChart pieChart = ChartFactory.createPieChart(
+        "Monthly Expenditure for " + category + " (" + year + ")", // Chart title
+        dataset,                                                   // Dataset
+        true,                                                      // Include legend
+        true,                                                      // Include tooltips
+        false                                                      // Do not generate URLs
+    );
 
-    // 6. Create a label to display the month with the most expenses
-    String labelText = "<html><h1>Month with the Highest Expense:</h1><br>" 
-                        + "<h2><font color='White' size ='10'>" + maxMonth + "</font></h2><br>" 
-                        + "<font size='5' color='Green'><b>Amount: ₹" + String.format("%.2f", maxExpense) + "</b></font></html>";
+    // Step 4: Customize the chart
+    PiePlot plot = (PiePlot) pieChart.getPlot();
+    plot.setLabelFont(new Font("SansSerif", Font.PLAIN, 12));
+    plot.setCircular(true);
+    plot.setLabelGap(0.02);
 
-    JLabel monthLabel = new JLabel(labelText);
-    monthLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-    monthLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  // Add padding for better spacing
-    monthLabel.setPreferredSize(new Dimension(250, 100));
+    ChartPanel chartPanel = new ChartPanel(pieChart);
+    chartPanel.setPreferredSize(new Dimension(500, 400));
 
-    // 7. Create a panel to hold the chart and the label
-    JPanel panel = new JPanel();
-    panel.setLayout(new BorderLayout());
+    // Step 5: Create insights panel
+    JPanel insightsPanel = new JPanel(new GridBagLayout());
+    insightsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-    // 8. Add the chart panel and the label panel to the main panel
-    JPanel labelPanel = new JPanel();
-    labelPanel.setLayout(new BorderLayout());
-    labelPanel.add(monthLabel, BorderLayout.CENTER);
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.fill = GridBagConstraints.HORIZONTAL;
+    gbc.insets = new Insets(5, 5, 5, 5); // Add spacing between components
+    gbc.gridx = 0; // Column
+    gbc.anchor = GridBagConstraints.WEST;
 
-    // 9. Place the label beside the chart (horizontally)
-    JPanel chartWithLabelPanel = new JPanel();
-    chartWithLabelPanel.setLayout(new BorderLayout());
-    chartWithLabelPanel.add(chartPanel, BorderLayout.CENTER);
-    chartWithLabelPanel.add(labelPanel, BorderLayout.EAST);
+    // Title
+    JLabel titleLabel = new JLabel("Expenditure Analysis");
+    titleLabel.setFont(new Font("SansSerif", Font.BOLD, 36));
+    gbc.gridy = 0; // Row
+    gbc.gridwidth = 2;
+    insightsPanel.add(titleLabel, gbc);
 
-    // 10. Return the final panel
-    panel.add(chartWithLabelPanel, BorderLayout.CENTER);
+    gbc.gridwidth = 1; // Reset width for following rows
 
-    return panel;
+    // Insights
+    addInsight(insightsPanel, gbc, "Highest Expense Month:", highestExpenseMonth, 1);
+    addInsight(insightsPanel, gbc, "Highest Amount:", String.format("%.2f", highestExpenseValue), 2);
+    addInsight(insightsPanel, gbc, "Total Expenditure:", String.format("%.2f", totalExpenditure), 3);
+    addInsight(insightsPanel, gbc, "Average Monthly Expenditure:", String.format("%.2f", averageExpenditure), 4);
+    addInsight(insightsPanel, gbc, "Highest Month Percentage:", String.format("%.2f%%", highestExpensePercentage), 5);
+
+    // Step 6: Create a composite panel
+    JPanel mainPanel = new JPanel(new BorderLayout());
+    mainPanel.add(chartPanel, BorderLayout.CENTER);  // Add chart to the center
+    mainPanel.add(insightsPanel, BorderLayout.EAST); // Add insights to the right
+
+    return mainPanel;
 }
+
+// Helper method to add insights to the panel
+private void addInsight(JPanel panel, GridBagConstraints gbc, String label, String value, int row) {
+    JLabel insightLabel = new JLabel(label);
+    JLabel insightValue = new JLabel(value);
+
+    insightLabel.setFont(new Font("SansSerif", Font.BOLD, 30));
+    insightValue.setFont(new Font("SansSerif", Font.BOLD, 24));
+
+    gbc.gridy = row;
+    gbc.gridx = 0;
+    panel.add(insightLabel, gbc);
+
+    gbc.gridx = 1;
+    panel.add(insightValue, gbc);
+}
+
+
 private void generatePdfWithChart(int year, String category, int userId) throws DocumentException, IOException {
     // Step 1: Fetch the chart and data for the year and category
     Map<String, Double> categoryData = getCategoryExpenseData(year, category);
@@ -2421,6 +2666,160 @@ private void openPdf(String filePath) {
         JOptionPane.showMessageDialog(null, "Error opening PDF: " + e.getMessage());
     }
 }
+private JPanel createBarChartPanel(int year, String category) {
+    // Step 1: Fetch data
+    Map<String, Double> monthlyExpenditure = fetchMonthlyExpenditureData(year, category);
+
+    if (monthlyExpenditure.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "No data available for the selected filters.");
+        return null;
+    }
+
+    // Step 2: Create dataset for the bar chart and find insights
+    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    String highestExpenseMonth = null;
+    double highestExpenseValue = Double.MIN_VALUE;
+    double totalExpenditure = 0;
+
+    for (Map.Entry<String, Double> entry : monthlyExpenditure.entrySet()) {
+        String month = entry.getKey();
+        double total = entry.getValue();
+        dataset.addValue(total, category, month);
+
+        totalExpenditure += total;
+        if (total > highestExpenseValue) {
+            highestExpenseValue = total;
+            highestExpenseMonth = month;
+        }
+    }
+
+    double averageExpenditure = totalExpenditure / monthlyExpenditure.size();
+    double highestExpensePercentage = (highestExpenseValue / totalExpenditure) * 100;
+
+    // Step 3: Create the bar chart
+    JFreeChart barChart = ChartFactory.createBarChart(
+        "Monthly Expenditure for " + category + " (" + year + ")", // Chart title
+        "Month",                                                  // Category axis label
+        "Expenditure",                                            // Value axis label
+        dataset,                                                  // Dataset
+        PlotOrientation.VERTICAL,                                 // Orientation
+        true,                                                     // Include legend
+        true,                                                     // Include tooltips
+        false                                                     // Do not generate URLs
+    );
+
+    // Step 4: Style the chart (optional)
+    CategoryPlot plot = barChart.getCategoryPlot();
+    plot.setDomainGridlinesVisible(true);
+    plot.setRangeGridlinePaint(Color.BLACK);
+
+    // Step 5: Create the ChartPanel
+    ChartPanel chartPanel = new ChartPanel(barChart);
+    chartPanel.setPreferredSize(new Dimension(500, 400));
+
+    // Step 6: Format the label with detailed insights using GridBagLayout for better alignment
+    JPanel labelPanel = new JPanel(new GridBagLayout());
+    labelPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding
+
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.fill = GridBagConstraints.HORIZONTAL;
+    gbc.insets = new Insets(5, 5, 5, 5); // Add spacing between components
+    gbc.gridx = 0; // Column
+    gbc.anchor = GridBagConstraints.WEST;
+
+    if (highestExpenseMonth != null) {
+        JLabel titleLabel = new JLabel("Expenditure Analysis");
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 36));
+        gbc.gridy = 0; // Row
+        gbc.gridwidth = 2;
+        labelPanel.add(titleLabel, gbc);
+
+        gbc.gridwidth = 1; // Reset width for following rows
+
+        JLabel monthLabel = new JLabel("Highest Expense Month:");
+        JLabel monthValue = new JLabel(highestExpenseMonth);
+        monthLabel.setFont(new Font("SansSerif", Font.BOLD, 30));
+        monthValue.setFont(new Font("SansSerif", Font.BOLD, 24));
+
+        
+        gbc.gridy = 1;
+        gbc.gridx = 0;
+        labelPanel.add(monthLabel, gbc);
+        gbc.gridx = 1;
+        labelPanel.add(monthValue, gbc);
+
+        JLabel valueLabel = new JLabel("Highest Amount:");
+        JLabel valueValue = new JLabel(String.format("%.2f", highestExpenseValue));
+          valueLabel.setFont(new Font("SansSerif", Font.BOLD, 30));
+        valueValue.setFont(new Font("SansSerif", Font.BOLD, 24));
+        gbc.gridy = 2;
+        gbc.gridx = 0;
+        labelPanel.add(valueLabel, gbc);
+        gbc.gridx = 1;
+        labelPanel.add(valueValue, gbc);
+
+        JLabel totalLabel = new JLabel("Total Expenditure:");
+        JLabel totalValue = new JLabel(String.format("%.2f", totalExpenditure));
+         totalLabel.setFont(new Font("SansSerif", Font.BOLD, 30));
+        totalValue.setFont(new Font("SansSerif", Font.BOLD, 24));
+        
+        gbc.gridy = 3;
+        gbc.gridx = 0;
+        labelPanel.add(totalLabel, gbc);
+        gbc.gridx = 1;
+        labelPanel.add(totalValue, gbc);
+
+        JLabel averageLabel = new JLabel("Average Monthly Expenditure:");
+        JLabel averageValue = new JLabel(String.format("%.2f", averageExpenditure));
+          averageLabel.setFont(new Font("SansSerif", Font.BOLD, 30));
+        averageValue.setFont(new Font("SansSerif", Font.BOLD, 24));
+        gbc.gridy = 4;
+        gbc.gridx = 0;
+        labelPanel.add(averageLabel, gbc);
+        gbc.gridx = 1;
+        labelPanel.add(averageValue, gbc);
+
+        JLabel percentageLabel = new JLabel("Highest Month Percentage:");
+        JLabel percentageValue = new JLabel(String.format("%.2f%%", highestExpensePercentage));
+          percentageLabel.setFont(new Font("SansSerif", Font.BOLD, 30));
+        percentageValue.setFont(new Font("SansSerif", Font.BOLD, 24));
+        gbc.gridy = 5;
+        gbc.gridx = 0;
+        labelPanel.add(percentageLabel, gbc);
+        gbc.gridx = 1;
+        labelPanel.add(percentageValue, gbc);
+    }
+
+    // Step 7: Create a composite panel to arrange the chart and label side by side
+    JPanel mainPanel = new JPanel(new BorderLayout());
+    mainPanel.add(chartPanel, BorderLayout.CENTER); // Add chart to the center
+    mainPanel.add(labelPanel, BorderLayout.EAST);  // Add label to the right
+
+    return mainPanel;
+}
+private void showAboutDialog() {
+    String aboutText = "<html>" +
+            "<h1 style='text-align: center;'>About SmartFinance</h1>" +
+            "<p><b>SmartFinance</b> is a cutting-edge personal finance management tool designed to help individuals track their expenses, manage budgets, and gain insights into their financial habits.</p>" +
+            "<p>The software is developed with a vision to promote financial literacy and empower users to achieve their financial goals.</p>" +
+            "<p><b>Creator's Vision:</b></p>" +
+            "<p>As the creator of SmartFinance, my mission is to combine advanced technology with simplicity to offer a seamless and intuitive experience. I aim to make financial management accessible and enjoyable for everyone.</p>" +
+            "<br><p style='text-align: center;'>Thank you for using SmartFinance!</p>" +
+            "<p style='text-align: center;'><i>© 2024 SmartFinance</i></p>" +
+            "</html>";
+
+    JLabel aboutLabel = new JLabel(aboutText);
+    aboutLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
+    aboutLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+    JOptionPane.showMessageDialog(null, aboutLabel, "About SmartFinance", JOptionPane.INFORMATION_MESSAGE);
+}
+
+
+
+
+
+
 
 
 

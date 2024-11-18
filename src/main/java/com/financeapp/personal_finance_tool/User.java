@@ -60,7 +60,7 @@ public class User {
 
     public void setPassword(String password) {
         if (password != null && password.length() >= 8) {
-            this.passwordHash = hashPassword(password); // Store hashed password
+            this.passwordHash = password; // Store hashed password
         } else {
             throw new IllegalArgumentException("Password must be at least 8 characters long.");
         }
@@ -79,10 +79,10 @@ public class User {
     }
 
     // Hashing password (example method, you'd want to use a real hashing algorithm)
-    private String hashPassword(String password) {
-        // This is a simple example; for production use, use a stronger hashing algorithm (e.g., BCrypt or SHA)
-        return Integer.toHexString(password.hashCode());
-    }
+//    private String hashPassword(String password) {
+//        // This is a simple example; for production use, use a stronger hashing algorithm (e.g., BCrypt or SHA)
+//        return Integer.toHexString(password.hashCode());
+//    }
 
     @Override
     public String toString() {
